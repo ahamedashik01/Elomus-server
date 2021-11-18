@@ -26,7 +26,9 @@ async function run() {
         //PRODUCT DATA 
         const productCollection = database.collection('products');
         //ORDER DATA 
-        const orderCollection = database.collection('orders')
+        const orderCollection = database.collection('orders');
+        //CART DATA
+        const cartCollection = database.collection('cart');
 
 
         //PRODUCT DATA 
@@ -60,6 +62,29 @@ async function run() {
             res.json(result);
         })
 
+        //CART API
+        //POST
+        app.post('/cart', async (req, res) => {
+            const cart = req.body;
+            console.log(cart)
+            const result = await cartCollection.insertOne(cart);
+            res.json(result);
+        });
+
+        //GET
+        app.get('/cart', async (req, res) => {
+            const cursor = cartCollection.find({});
+            const orders = await cursor.toArray();
+            res.json(orders);
+        });
+
+        //DELETE
+        app.delete('/cart/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjcetId(id) }
+            const result = await cartCollection.deleteOne(query);
+            res.json(result);
+        })
 
         //ORDER API
 
