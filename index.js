@@ -70,6 +70,11 @@ async function run() {
             }
             res.send({ admin: isAdmin });
         })
+        app.get('/users', async (req, res) => {
+            const cursor = userCollection.find({});
+            const users = await cursor.toArray();
+            res.send(users);
+        });
 
         //PRODUCT METHOD 
 
