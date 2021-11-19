@@ -39,8 +39,17 @@ async function run() {
             const user = req.body;
             const result = await userCollection.insertOne(user);
             res.json(result);
-
         });
+
+        // PUT
+        app.put('/users', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const options = { upsert: true };
+            const updateDoc = { $set: user };
+            const result = userCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
+        })
 
         //PRODUCT METHOD 
 
@@ -89,6 +98,20 @@ async function run() {
             const orders = await cursor.toArray();
             res.json(orders);
         });
+
+        // PUT
+        app.put('/orders', async (req, res) => {
+            const order = req.body;
+            const filter = { email: order.email };
+            const updateStatus = order.status;
+            const updateDoc = {
+                $set: {
+                    updateStatus: "Shipped"
+                }
+            };
+            const result = userCollection.updateOne(filter, updateDoc);
+            res.json(result);
+        })
 
         //DELETE
         app.delete('/orders/:id', async (req, res) => {
