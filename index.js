@@ -27,11 +27,22 @@ async function run() {
         const productCollection = database.collection('products');
         //ORDER DATA 
         const orderCollection = database.collection('orders');
-        //CART DATA
-        const cartCollection = database.collection('cart');
+        //USER DATA
+        const userCollection = database.collection('users');
 
 
-        //PRODUCT DATA 
+
+        //USER METHOD
+
+        //POST 
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await userCollection.insertOne(user);
+            res.json(result);
+
+        });
+
+        //PRODUCT METHOD 
 
         //GET 
         app.get('/products', async (req, res) => {
@@ -62,31 +73,8 @@ async function run() {
             res.json(result);
         })
 
-        //CART API
-        //POST
-        app.post('/cart', async (req, res) => {
-            const cart = req.body;
-            console.log(cart)
-            const result = await cartCollection.insertOne(cart);
-            res.json(result);
-        });
 
-        //GET
-        app.get('/cart', async (req, res) => {
-            const cursor = cartCollection.find({});
-            const orders = await cursor.toArray();
-            res.json(orders);
-        });
-
-        //DELETE
-        app.delete('/cart/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjcetId(id) }
-            const result = await cartCollection.deleteOne(query);
-            res.json(result);
-        })
-
-        //ORDER API
+        //ORDER METHOD
 
         //POST
         app.post('/orders', async (req, res) => {
