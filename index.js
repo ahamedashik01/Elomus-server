@@ -47,7 +47,7 @@ async function run() {
             const filter = { email: user.email };
             const options = { upsert: true };
             const updateDoc = { $set: user };
-            const result = userCollection.updateOne(filter, updateDoc, options);
+            const result = await userCollection.updateOne(filter, updateDoc, options);
             res.json(result);
         })
 
@@ -109,7 +109,7 @@ async function run() {
                     updateStatus: "Shipped"
                 }
             };
-            const result = userCollection.updateOne(filter, updateDoc);
+            const result = await userCollection.updateOne(filter, updateDoc);
             res.json(result);
         })
 
