@@ -38,13 +38,13 @@ async function run() {
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await userCollection.insertOne(user);
+            console.log(result);
             res.json(result);
         });
 
         // PUT
         app.put('/users', async (req, res) => {
             const user = req.body;
-            console.log('hitting')
             const filter = { email: user.email };
             const options = { upsert: true };
             const updateDoc = { $set: user };
@@ -66,9 +66,9 @@ async function run() {
             const user = await userCollection.findOne(query);
             let isAdmin = false;
             if (user?.role === 'admin') {
-                isAdmin = ture;
+                isAdmin = true;
             }
-            res.send({ admin: isAdmin });
+            res.json({ admin: isAdmin });
         })
         app.get('/users', async (req, res) => {
             const cursor = userCollection.find({});
