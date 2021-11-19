@@ -125,16 +125,16 @@ async function run() {
         });
 
         // PUT
-        app.put('/orders', async (req, res) => {
-            const order = req.body;
-            const filter = { email: order.email };
+        app.put('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjcetId(id) }
             const updateStatus = order.status;
             const updateDoc = {
                 $set: {
                     updateStatus: "Shipped"
                 }
             };
-            const result = await userCollection.updateOne(filter, updateDoc);
+            const result = await userCollection.updateOne(query, updateDoc);
             res.json(result);
         })
 
