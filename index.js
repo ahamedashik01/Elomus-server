@@ -44,6 +44,7 @@ async function run() {
         // PUT
         app.put('/users', async (req, res) => {
             const user = req.body;
+            console.log('hitting')
             const filter = { email: user.email };
             const options = { upsert: true };
             const updateDoc = { $set: user };
@@ -58,6 +59,16 @@ async function run() {
             const updateDoc = { $set: { role: "admin" } };
             const result = await userCollection.updateOne(filter, updateDoc);
             res.json(result);
+        })
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            let isAdmin = false;
+            const user = await userCollection.findOne(query);
+            if (user?.role === "admin") {
+                isAdmin = ture;
+            }
+            res.json({ admin: isAdmin });
         })
 
         //PRODUCT METHOD 
