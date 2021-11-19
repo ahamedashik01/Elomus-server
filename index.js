@@ -63,12 +63,12 @@ async function run() {
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
-            let isAdmin = false;
             const user = await userCollection.findOne(query);
-            if (user?.role === "admin") {
+            let isAdmin = false;
+            if (user?.role === 'admin') {
                 isAdmin = ture;
             }
-            res.json({ admin: isAdmin });
+            res.send({ admin: isAdmin });
         })
 
         //PRODUCT METHOD 
